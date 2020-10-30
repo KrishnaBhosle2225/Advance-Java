@@ -1,0 +1,266 @@
+
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.sql.*;
+
+
+public class KrishnaForm implements ActionListener
+{
+	
+	Connection con;
+	Container c1;
+	JButton b1,b2,b3;
+	JLabel l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
+	JTextField t1,t2,t3,t4,t5,t6;
+	Choice city,state,department,year;
+	
+	
+	void MyForm()
+	{
+
+
+
+
+		JFrame f1 = new JFrame("Krishna Form");
+		f1.setVisible(true);
+		f1.setBounds(100,100,600,700);
+		c1=f1.getContentPane();
+		c1.setLayout(null);
+		
+		l1 = new JLabel("Student Id");
+		l1.setBounds(300,100,200,30);
+		c1.add(l1);
+		
+		l2 = new JLabel("Student Name");
+		l2.setBounds(300,150,200,30);
+		c1.add(l2);
+		
+		l3 = new JLabel("Student Mob_No ");
+		l3.setBounds(300,200,200,30);
+		c1.add(l3);
+		
+		l4 = new JLabel("Student Email");
+		l4.setBounds(300,250,200,30);
+		c1.add(l4);
+		
+		l5 = new JLabel("Student DOB");
+		l5.setBounds(300,300,200,30);
+		c1.add(l5);
+		
+		l6 = new JLabel("Student Address ");
+		l6.setBounds(300,350,200,30);
+		c1.add(l6);
+		
+		l7 = new JLabel("Student City");
+		l7.setBounds(300,400,100,30);
+		c1.add(l7);
+		
+		l8 = new JLabel("Student State ");
+		l8.setBounds(300,450,100,30);
+		c1.add(l8);
+		
+		l9 = new JLabel("Student Department");
+		l9.setBounds(300,500,100,30);
+		c1.add(l9);
+		
+		l10 = new JLabel("Student year");
+		l10.setBounds(300,550,100,30);
+		c1.add(l10);
+	
+		t1 = new JTextField();
+		t1.setBounds(450,100,200,30);
+		c1.add(t1);
+		
+		
+		t2 = new JTextField();
+		t2.setBounds(450,150,200,30);
+		c1.add(t2);
+		
+		
+		t3 = new JTextField();
+		t3.setBounds(450,200,200,30);
+		c1.add(t3);
+		
+		t4 = new JTextField();
+		t4.setBounds(450,250,200,30);
+		c1.add(t4);
+		
+		t5 = new JTextField();
+		t5.setBounds(450,300,200,30);
+		c1.add(t5);
+		
+		t6 = new JTextField();
+		t6.setBounds(450,350,200,30);
+		c1.add(t6);
+		
+		city = new Choice();
+		city.add("pune");
+		city.add("solapur");
+		city.add("kalburgi");
+		city.add("thane");
+		city.add("mumbai");
+		city.add("osmanabad");
+		city.add("latur");
+		city.setBounds(450,400,100,30);
+		c1.add(city);
+		
+		state = new Choice();
+		state.add("Maharashtra");
+		state.add("Karnataka");
+		state.add("Goa");
+		state.add("Panjab");
+		state.add("Rajasthan");
+		state.add("Kerala");
+		state.setBounds(450,450,200,30);
+		c1.add(state);
+		
+		department = new Choice();
+		department.add("Electrical Engineering");
+		department.add("Computer Engineering");
+		department.add("Civil Engineering");
+		department.add("Mechanical Engineering");
+		department.add("E & TC Engineering");
+		department.add("Aerospace Engineering");
+		department.setBounds(450,500,200,30);
+		c1.add(department);
+		
+		year = new Choice();
+		year.add("First year");
+		year.add("Second year");
+		year.add("Third year");
+		year.add("Fourth year");
+		year.setBounds(450,550,200,30);
+		c1.add(year);
+		
+		b1 = new JButton("Add Details");
+		b1.setBounds(300,600,120,30);
+		b1.addActionListener(this);
+		c1.add(b1);
+		
+		b2 = new JButton("Search Details");
+		b2.setBounds(450,600,120,30);
+		c1.add(b2);
+		
+		b3 = new JButton("Delete Details");
+		b3.setBounds(600,600,120,30);
+		c1.add(b3);
+	}
+		
+	
+	
+	void DatabaseConnection()
+	{
+		try
+		{
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("Driver loaded...");
+			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/asciieducation2020","root","");
+			System.out.println("Connection Successful...");
+			
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	void CreateTable()
+	{
+		try 
+		{
+			
+			Statement st = con.createStatement();
+			
+			String sql="create table  if not exists vedant  (\n"
+			+"id text not null,\n"
+			+ "name text not null,\n"
+			+ "mobile_num text not null,\n"
+			+ "email text not null,\n"
+			+ "DOB text not null,\n"
+			+ "address text not null,\n"
+			+ "city text not null,\n"
+			+ "state text not null,\n"
+			+ "department text not null,\n"
+			+ "year text not null\n"
+			+ ");";
+			
+			st.executeUpdate(sql);
+			
+			System.out.println("Table created Successfully...");
+					
+		}
+		catch(Exception e1)
+		{
+			e1.printStackTrace();
+		}
+	}
+	
+	void InsertDetails()
+	{
+		try
+		{
+			DatabaseConnection();
+			
+			String str = "insert into vedant values (?,?,?,?,?,?,?,?,?,?)";
+			
+			PreparedStatement ps = con.prepareStatement(str);
+			
+			ps.setString(1,t1.getText());
+			ps.setString(2,t2.getText());
+			ps.setString(3,t3.getText());
+			ps.setString(4,t4.getText());
+			ps.setString(5,t5.getText());
+			ps.setString(6,t6.getText());
+			ps.setString(7,city.getSelectedItem());
+			ps.setString(8,state.getSelectedItem());
+			ps.setString(9,department.getSelectedItem());
+			ps.setString(10,year.getSelectedItem());
+			
+			int i1 = ps.executeUpdate();
+			System.out.println("Data Inserted.."+i1);
+			
+			t1.setText(null);
+			t2.setText(null);
+			t3.setText(null);
+			t4.setText(null);
+			t5.setText(null);
+			t6.setText(null);
+			
+			con.close();
+			
+			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent ae)
+	{
+		if (ae.getSource()==b1)
+		{
+			InsertDetails();
+		}
+		else 
+		{
+			System.out.println("Data Inserted Successfully...");
+		}
+	}
+	
+	
+	
+	
+	
+	public static void main (String ar[])
+	{
+		KrishnaForm k1 = new KrishnaForm();
+		k1.MyForm();
+		
+	}
+
+ }
