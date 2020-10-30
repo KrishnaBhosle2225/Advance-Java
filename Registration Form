@@ -136,7 +136,7 @@ public class KrishnaForm implements ActionListener
 		
 		b1 = new JButton("Add Details");
 		b1.setBounds(300,600,120,30);
-		b1.addActionListener(this);
+		
 		c1.add(b1);
 		
 		b2 = new JButton("Search Details");
@@ -148,112 +148,6 @@ public class KrishnaForm implements ActionListener
 		c1.add(b3);
 	}
 		
-	
-	
-	void DatabaseConnection()
-	{
-		try
-		{
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			System.out.println("Driver loaded...");
-			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/asciieducation2020","root","");
-			System.out.println("Connection Successful...");
-			
-			
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	void CreateTable()
-	{
-		try 
-		{
-			
-			Statement st = con.createStatement();
-			
-			String sql="create table  if not exists vedant  (\n"
-			+"id text not null,\n"
-			+ "name text not null,\n"
-			+ "mobile_num text not null,\n"
-			+ "email text not null,\n"
-			+ "DOB text not null,\n"
-			+ "address text not null,\n"
-			+ "city text not null,\n"
-			+ "state text not null,\n"
-			+ "department text not null,\n"
-			+ "year text not null\n"
-			+ ");";
-			
-			st.executeUpdate(sql);
-			
-			System.out.println("Table created Successfully...");
-					
-		}
-		catch(Exception e1)
-		{
-			e1.printStackTrace();
-		}
-	}
-	
-	void InsertDetails()
-	{
-		try
-		{
-			DatabaseConnection();
-			
-			String str = "insert into vedant values (?,?,?,?,?,?,?,?,?,?)";
-			
-			PreparedStatement ps = con.prepareStatement(str);
-			
-			ps.setString(1,t1.getText());
-			ps.setString(2,t2.getText());
-			ps.setString(3,t3.getText());
-			ps.setString(4,t4.getText());
-			ps.setString(5,t5.getText());
-			ps.setString(6,t6.getText());
-			ps.setString(7,city.getSelectedItem());
-			ps.setString(8,state.getSelectedItem());
-			ps.setString(9,department.getSelectedItem());
-			ps.setString(10,year.getSelectedItem());
-			
-			int i1 = ps.executeUpdate();
-			System.out.println("Data Inserted.."+i1);
-			
-			t1.setText(null);
-			t2.setText(null);
-			t3.setText(null);
-			t4.setText(null);
-			t5.setText(null);
-			t6.setText(null);
-			
-			con.close();
-			
-			
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent ae)
-	{
-		if (ae.getSource()==b1)
-		{
-			InsertDetails();
-		}
-		else 
-		{
-			System.out.println("Data Inserted Successfully...");
-		}
-	}
-	
-	
-	
 	
 	
 	public static void main (String ar[])
